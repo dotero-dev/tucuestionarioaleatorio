@@ -1,0 +1,137 @@
+---
+
+---
+
+<html lang="en" class="h-full">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Tu cuestionario aleatorio</title>
+		<script>
+			class Pregunta {
+				constructor(pregunta){
+					this.pregunta = pregunta;
+					this.respuestas = [];
+				}
+			}
+
+			function getRandomInt(max) {
+				return Math.floor(Math.random() * max);
+			}
+
+			function readFile() {
+				var fileInput = document.getElementById('fileInput');	
+				var preguntasTotales = document.getElementById("preguntasTotales").value;
+				var preguntasAElegir = document.getElementById("preguntasAElegir").value;
+				var respuestasPorPregunta = document.getElementById("respuestasPorPregunta").value;
+				var espaciosEntrePreguntas = document.getElementById("espaciosEntrePreguntas").value;		
+				var file = fileInput.files[0];
+			
+				if (file) {
+					var reader = new FileReader();
+			
+					reader.onload = function(e) {
+						var content = e.target.result;
+						let preguntas = []
+						for (let step = 0; step < preguntasTotales; step ++){
+							let indice = content.indexOf("\r\n")
+							var preguntaActual = new Pregunta(content.slice(0,indice))
+							content = content.slice(indice+2)
+							for (let i = 0; i < respuestasPorPregunta; i ++){
+								let indice = content.indexOf("\r\n")
+								preguntaActual.respuestas.push(content.slice(0,indice))
+								content = content.slice(indice+2)
+							}
+							for (let i = 0; i < espaciosEntrePreguntas; i ++){
+								content = content.slice(2)
+							}
+							preguntas.push(preguntaActual)
+						}
+						let numeros = []
+						while (numeros.length < preguntasAElegir){
+							var numero = getRandomInt(preguntasTotales)
+							if (!numeros.includes(numero)){
+								numeros.push(numero)
+							}
+						}
+						let preguntasFinales = ""
+						letras = ["A", "B", "C", "D", "E", "F", "G"]
+						for (let step = 0; step < preguntasAElegir; step ++){
+							preguntasFinales += step +". " + preguntas[numeros[step]].pregunta + "\r\n"
+							for (let i = 0; i < respuestasPorPregunta; i ++){
+								preguntasFinales += letras[i] + ". " + preguntas[numeros[step]].respuestas[i] + "\r\n"
+							}
+							for (let i = 0; i < espaciosEntrePreguntas; i++){
+								preguntasFinales += "\r\n"
+							}
+						}
+												
+					};
+					reader.readAsText(file);
+				} else {
+					window.alert("Selecciona un archivo de texto.")
+				}
+			}
+			</script>
+	</head>
+	<body class="bg-gray-100 py-12 px-12 h-full">
+		<main id="main"class="flex gap-x-12 h-full">
+
+			<!-- Sección de la izquierda: selección de parámetros -->
+			<form id="form" class="w-full h-full bg-teal-800 rounded-lg py-8 px-8 flex flex-col justify-between">
+				<h1 id="h11" class="text-7xl text-gray-100 w-full font-sans font-bold mb-8">¡Haz tu cuestionario aleatorio!</h1>
+				<div id="div1"class="flex align-middle">
+					<h3 class="h-full text-xl text-white font-sans mr-4">Preguntas totales: </h3>
+					<input id="preguntasTotales" class="rounded-full w-24 h-7 text-center">
+				</div>
+				<div id="div2"class="my-4 flex align-middle">
+					<h3 class="h-full text-xl text-white font-sans mr-4">Preguntas a elegir: </h3>
+					<input id="preguntasAElegir" class="rounded-full w-24 h-7 text-center">
+				</div>
+        <div id="div2"class="mb-4 flex align-middle">
+					<h3 class="h-full text-xl text-white font-sans mr-4">Respuestas por pregunta: </h3>
+					<input id="respuestasPorPregunta" class="rounded-full w-24 h-7 text-center">
+				</div>
+        <div id="div2"class="mb-4 flex align-middle">
+					<h3 class="h-full text-xl text-white font-sans mr-4">Espacios entre preguntas: </h3>
+					<input id="espaciosEntrePreguntas" class="rounded-full w-24 h-7 text-center">
+				</div>
+				<div id="div3"class="mt-auto">
+					<div id="div4"class="mt-full my-6">
+						<input multiple id="fileInput" type="file" class="text-xl text-white font-sans"/>
+					</div>
+					<div id="div5"class="w-full h-16 bg-gray-100 rounded-xl">
+						<button class="text-teal-800 text-3xl h-full w-full cursor-pointer font-semibold" type="button" onclick="readFile()">Adelante</button>
+					</div>
+				</div>
+			</form>
+
+			<section id="section1"class="w-full h-full  rounded-lg gap-y-12 flex flex-col justify-between">
+				<section id="section2"class="w-full h-full bg-violet-800 rounded-lg px-8 py-8 flex flex-col justify-between">
+					<div id="div6"class="my-auto">
+						<h1 id="h12"class="text-6xl text-gray-100 w-full font-sans font-bold mb-8">¿Cómo funciona?</h1>
+						<ol id="ol"class="text-gray-100 text-xl font-medium">
+							<li id="li1">
+								1. Sube tu archivo PDF con todas las preguntas del test e indica cuántas preguntas tiene en total tu documento y cuántas quieres elegir.
+							</li>
+							<li id="li2">
+								2. Al hacer clic en "¡Adelante!" un script realizará una selección de las preguntas deseadas de forma aleatoria.
+							</li>
+							<li id="li3">
+								3. Tras esperar, podrás ver en el siguiente recuadro la opción "Descargar", para recibir un PDF que puedes importar en Microsoft Forms.
+							</li>
+						</ol>
+					</div>
+				</section>
+				<section id="section3"class="w-full rounded-lg flex px-8 py-8 justify-center bg-rose-900">
+					<svg id="svg"class="flex items-center h-full" width="64" height="64" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+						<path fill="#FFF" d="M13 8V2H7v6H2l8 8l8-8zM0 18h20v2H0z"/>
+					</svg>
+					<h1 id="h13"class="text-6xl px-8 text-gray-100 w-full font-sans font-bold mb-8 h-full flex items-center justify-center">Descargar</h1>
+				</section>
+			</section>
+		</main>
+	</body>
+</html>

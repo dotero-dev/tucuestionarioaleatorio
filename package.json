@@ -12,6 +12,9 @@
   "dependencies": {
     "@astrojs/tailwind": "^5.1.0",
     "astro": "^4.3.2",
+    "pdf-to-text": "^0.0.7"
+  },
+  "devDependencies": {
     "tailwindcss": "^3.4.1"
   }
 }

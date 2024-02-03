@@ -1,0 +1,159 @@
+<style>
+	body {
+  background-color: #f0f4f8;
+  padding: 3rem 3rem;
+  height: 100%;
+}
+
+#main {
+  display: flex;
+  gap: 3rem;
+  height: 100%;
+}
+
+#form {
+  width: 100%;
+  height: 100%;
+  background-color: #008080;
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#h11 {
+  font-size: 8rem;
+  color: #fff;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+#div1,
+#div2 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+#div1 h3,
+#div2 h3 {
+  height: 100%;
+  font-size: 2rem;
+  color: #fff;
+  font-family: sans-serif;
+  margin-right: 1rem;
+}
+
+input.rounded-full {
+  border-radius: 9999px;
+  width: 6rem;
+  height: 1.75rem;
+  text-align: center;
+}
+
+#div3 {
+  margin-top: auto;
+}
+
+#div4 {
+  margin-top: auto;
+  margin-bottom: 1.5rem;
+}
+
+#fileInput {
+  font-size: 1.5rem;
+  color: #fff;
+  font-family: sans-serif;
+}
+
+#div5 {
+  width: 100%;
+  height: 4rem;
+  background-color: #f0f4f8;
+  border-radius: 1rem;
+}
+
+#div5 button {
+  color: #008080;
+  font-size: 3rem;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#section1 {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  gap: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#section2 {
+  width: 100%;
+  height: 100%;
+  background-color: #4b0082;
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#div6 {
+  margin: auto;
+}
+
+#h12 {
+  font-size: 6rem;
+  color: #fff;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+#ol {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: medium;
+}
+
+#li1,
+#li2,
+#li3 {
+  margin-bottom: 1rem;
+}
+
+#section3 {
+  width: 100%;
+  border-radius: 1rem;
+  display: flex;
+  padding: 2rem;
+  justify-content: center;
+  background-color: #8b0000;
+}
+
+#svg {
+  fill: #fff;
+  height: 100%;
+  width: 100%;
+}
+
+#h13 {
+  font-size: 6rem;
+  color: #fff;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+}
+
+</style>
