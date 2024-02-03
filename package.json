@@ -3,9 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "dev": "astro dev",
     "start": "astro dev",
-    "dev": "tailwindcss build -i ./src/tailwind.css -o ./public/tailwind.css",
-    "build": "NODE_ENV=production npm run dev",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
