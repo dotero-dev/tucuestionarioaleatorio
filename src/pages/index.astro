@@ -2,15 +2,62 @@
 
 ---
 
-<html lang="en">
+<html lang="en" class="h-full">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Tu cuestionario aleatorio</title>
 	</head>
-	<body>
-		<h1>Astro</h1>
+	<body class="bg-gray-100 py-12 px-12 h-full">
+		<main class="flex gap-x-12 h-full">
+
+			<!-- Sección de la izquierda: selección de parámetros -->
+			<form action="../../form-result.php" method="post" enctype="multipart/form-data" target="_blank" class="w-full h-full bg-teal-800 rounded-lg py-8 px-8 flex flex-col justify-between">
+				<h1 class="text-8xl text-gray-100 w-full font-sans font-bold mb-8">¡Haz tu cuestionario aleatorio!</h1>
+				<div class="flex align-middle">
+					<h3 class="h-full text-2xl text-white font-sans mr-4">Preguntas totales: </h3>
+					<input class="rounded-full w-24 h-7 text-center">
+				</div>
+				<div class="my-4 flex align-middle">
+					<h3 class="h-full text-2xl text-white font-sans mr-4">Preguntas a elegir: </h3>
+					<input class="rounded-full w-24 h-7 text-center">
+				</div>
+				<div id="fondo" class="mt-auto">
+					<div class="mt-full my-6">
+						<input type="file" class="text-xl text-white font-sans"/>
+					</div>
+					<div class="w-full h-16 bg-gray-100 rounded-xl">
+						<input class="text-teal-800 text-3xl h-full w-full cursor-pointer font-semibold" type="submit" value="¡Adelante!">
+					</div>
+				</div>
+			</form>
+
+			<section class="w-full h-full  rounded-lg gap-y-12 flex flex-col justify-between">
+				<section class="w-full h-full bg-violet-800 rounded-lg px-8 py-8 flex flex-col justify-between">
+					<div class="my-auto">
+						<h1 class="text-6xl text-gray-100 w-full font-sans font-bold mb-8">¿Cómo funciona?</h1>
+						<ol class="text-gray-100 text-xl font-medium">
+							<li>
+								1. Sube tu archivo PDF con todas las preguntas del test e indica cuántas preguntas tiene en total tu documento y cuántas quieres elegir.
+							</li>
+							<li>
+								2. Al hacer clic en "¡Adelante!" un script realizará una selección de las preguntas deseadas de forma aleatoria.
+							</li>
+							<li>
+								3. Tras esperar, podrás ver en el siguiente recuadro la opción "Descargar", para recibir un PDF que puedes importar en Microsoft Forms.
+							</li>
+						</ol>
+					</div>
+				</section>
+				<section class="w-full rounded-lg flex px-8 py-8 justify-center bg-rose-900">
+					<svg class="flex items-center h-full" width="64" height="64" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+						<path fill="#FFF" d="M13 8V2H7v6H2l8 8l8-8zM0 18h20v2H0z"/>
+					</svg>
+					<h1 class="text-6xl px-8 text-gray-100 w-full font-sans font-bold mb-8 h-full flex items-center justify-center">Descargar</h1>
+				</section>
+			</section>
+		</main>
 	</body>
 </html>
