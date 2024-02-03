@@ -23,15 +23,23 @@
 				var preguntasTotales = document.getElementById("preguntasTotales").value;
 				var preguntasAElegir = document.getElementById("preguntasAElegir").value;
 				var respuestasPorPregunta = document.getElementById("respuestasPorPregunta").value;
-				var espaciosEntrePreguntas = document.getElementById("espaciosEntrePreguntas").value;		
+				var espaciosEntrePreguntas = document.getElementById("espaciosEntrePreguntas").value;
+				var lineasInicio = document.getElementById("lineasInicio").value;	
 				var file = fileInput.files[0];
 			
-				if (file) {
+				if (file && preguntasTotales && lineasInicio && preguntasAElegir && respuestasPorPregunta && espaciosEntrePreguntas) {
 					var reader = new FileReader();
 			
 					reader.onload = function(e) {
 						var content = e.target.result;
 						let preguntas = []
+						console.log(lineasInicio)
+						for (let step = 0; step < lineasInicio; step ++){
+							console.log("heqwewae")
+							let indice = content.indexOf("\r\n")
+							content = content.slice(indice+2)
+						}
+						console.log(content)
 						for (let step = 0; step < preguntasTotales; step ++){
 							let indice = content.indexOf("\r\n")
 							var preguntaActual = new Pregunta(content.slice(0,indice))
@@ -74,13 +82,13 @@
 					};
 					reader.readAsText(file);
 				} else {
-					window.alert("Selecciona un archivo de texto.")
+					window.alert("Rellena todos los datos.")
 				}
 			}
 			</script>
 	</head>
 	<body class="bg-gray-100 py-12 px-12 h-full">
-		<main id="main"class="flex gap-x-12 h-full">
+		<main id="main" class=" gap-x-12 h-full flex">
 
 			<!-- Sección de la izquierda: selección de parámetros -->
 			<form id="form" class="w-full h-full bg-teal-800 rounded-lg py-8 px-8 flex flex-col justify-between">
@@ -101,6 +109,10 @@
 					<h3 class="h-full text-xl text-white font-sans mr-4">Espacios entre preguntas: </h3>
 					<input id="espaciosEntrePreguntas" class="rounded-full w-24 h-7 text-center">
 				</div>
+				<div id="div1"class="flex align-middle">
+					<h3 class="h-full text-xl text-white font-sans mr-4">Líneas a evitar al inicio: </h3>
+					<input id="lineasInicio" value="0" class="rounded-full w-24 h-7 text-center">
+				</div>
 				<div id="div3"class="mt-auto">
 					<div id="div4"class="mt-full my-6">
 						<input multiple id="fileInput" type="file" class="text-xl text-white font-sans"/>
@@ -116,12 +128,14 @@
 					<div id="div6"class="my-auto">
 						<h1 id="h12"class="text-6xl text-gray-100 w-full font-sans font-bold mb-8">¿Cómo funciona?</h1>
 						<ol id="ol"class="text-gray-100 text-lg font-medium">
+							DISCLAIMER: La versión móvil no está optimizada. Usa la versión de ordenador
+							<br>
 							<li>
 								1. Obtén un archivo .txt con todas tus preguntas. Quizás necesites transformar tu archivo PDF o Word a .txt, para ello, puedes usar <u><a href="https://convertio.co/es/pdf-txt/">esta herramienta para PDF a .txt</a></u> o <u><a href="https://convertio.co/es/word-txt/">esta herramienta para Word a .txt</a></u>.
 							</li>
 							<br>
 							<li>
-								2. Sube tu archivo .txt con todas las preguntas del test y rellena los diferentes parámetros. Es importante que los rellenes bien para la lectura correcta del documento.
+								2. Sube tu archivo .txt (MUY IMPORTANTE QUE SEA .TXT) con todas las preguntas del test y rellena los diferentes parámetros. Es importante que los rellenes bien para la lectura correcta del documento.
 							</li>
 							<br>
 							<li>
