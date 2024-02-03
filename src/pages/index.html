@@ -1,13 +1,10 @@
----
-
----
-
 <html lang="en" class="h-full">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<link rel="stylesheet" href="tailwind.css" />
 		<title>Tu cuestionario aleatorio</title>
 		<script>
 			class Pregunta {
@@ -59,7 +56,7 @@
 						let preguntasFinales = ""
 						letras = ["A", "B", "C", "D", "E", "F", "G"]
 						for (let step = 0; step < preguntasAElegir; step ++){
-							preguntasFinales += step +". " + preguntas[numeros[step]].pregunta + "\r\n"
+							preguntasFinales += (step+1) +". " + preguntas[numeros[step]].pregunta + "\r\n"
 							for (let i = 0; i < respuestasPorPregunta; i ++){
 								preguntasFinales += letras[i] + ". " + preguntas[numeros[step]].respuestas[i] + "\r\n"
 							}
@@ -67,7 +64,13 @@
 								preguntasFinales += "\r\n"
 							}
 						}
-												
+						const blob = new Blob([preguntasFinales], { type: "text/plain" });
+						const enlaceDescarga = document.createElement("a");
+						enlaceDescarga.download = "cuestionario.txt";
+						enlaceDescarga.href = window.URL.createObjectURL(blob);
+						document.body.appendChild(enlaceDescarga);
+						enlaceDescarga.click();
+						document.body.removeChild(enlaceDescarga);
 					};
 					reader.readAsText(file);
 				} else {
@@ -112,24 +115,28 @@
 				<section id="section2"class="w-full h-full bg-violet-800 rounded-lg px-8 py-8 flex flex-col justify-between">
 					<div id="div6"class="my-auto">
 						<h1 id="h12"class="text-6xl text-gray-100 w-full font-sans font-bold mb-8">¿Cómo funciona?</h1>
-						<ol id="ol"class="text-gray-100 text-xl font-medium">
-							<li id="li1">
-								1. Sube tu archivo PDF con todas las preguntas del test e indica cuántas preguntas tiene en total tu documento y cuántas quieres elegir.
+						<ol id="ol"class="text-gray-100 text-lg font-medium">
+							<li>
+								1. Obtén un archivo .txt con todas tus preguntas. Quizás necesites transformar tu archivo PDF o Word a .txt, para ello, puedes usar <u><a href="https://convertio.co/es/pdf-txt/">esta herramienta para PDF a .txt</a></u> o <u><a href="https://convertio.co/es/word-txt/">esta herramienta para Word a .txt</a></u>.
 							</li>
-							<li id="li2">
-								2. Al hacer clic en "¡Adelante!" un script realizará una selección de las preguntas deseadas de forma aleatoria.
+							<br>
+							<li>
+								2. Sube tu archivo .txt con todas las preguntas del test y rellena los diferentes parámetros. Es importante que los rellenes bien para la lectura correcta del documento.
 							</li>
-							<li id="li3">
-								3. Tras esperar, podrás ver en el siguiente recuadro la opción "Descargar", para recibir un PDF que puedes importar en Microsoft Forms.
+							<br>
+							<li>
+								3. Al hacer clic en "¡Adelante!" un script realizará una selección de las preguntas deseadas de forma aleatoria y se te descargará automáticamente el archivo .txt con dichas preguntas.
+							</li>
+							<br>
+							<li>
+								4. Ahora necesitas transformarlo a PDF para poder ser importado en Microsoft Forms. Puedes hacerlo a través de <u><a href="https://convertio.co/es/txt-pdf/">esta herramienta.</a></u>
+							</li>
+							<br>
+							<li>
+								5. Ahora importa el PDF en Microsoft Forms haciendo clic en la opción "Importación rápida" o "Quick import", donde tendrás que subir tu PDF y seleccionar la opción "Cuestionario" o "Quiz".
 							</li>
 						</ol>
 					</div>
-				</section>
-				<section id="section3"class="w-full rounded-lg flex px-8 py-8 justify-center bg-rose-900">
-					<svg id="svg"class="flex items-center h-full" width="64" height="64" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-						<path fill="#FFF" d="M13 8V2H7v6H2l8 8l8-8zM0 18h20v2H0z"/>
-					</svg>
-					<h1 id="h13"class="text-6xl px-8 text-gray-100 w-full font-sans font-bold mb-8 h-full flex items-center justify-center">Descargar</h1>
 				</section>
 			</section>
 		</main>
