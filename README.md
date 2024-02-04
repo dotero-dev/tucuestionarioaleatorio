@@ -1,47 +1,15 @@
-# Astro Starter Kit: Minimal
+# Tu cuestionario aleatorio
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Esto es una herramienta que te ayudará a seleccionar de una gran cantidad de preguntas tan solo unas pocas, o muchas, ¡como tú quieras! para crear tu cuestionario en Microsoft Forms. Puedes usar uno o varios cuestionarios de base, ¡no importa! Aunque, necesitan estar en formato de documento de texto (.txt).
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+### ¿Cómo funciona?
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+1. Obtén un archivo .txt con todas tus preguntas. Puedes usar esta herramienta para transformar tu PDF a .txt o esta herramienta para transformar tu Word a .txt.
 
-## 🚀 Project Structure
+2. Sube tu archivo o archivos .txt. Debes rellenar bien todos los parámetros para una lectura correcta. Si los diferentes documentos tienen una cantidad de preguntas diferentes, puedes indicarlo por comas, en orden de selección de archivos, en "Preguntas totales por archivo", tal que así "5,4,9". Si solo se recibe un número, se entiende que todos tienen la misma longitud. El resto de parámetros son iguales para todos los archivos.
 
-Inside of your Astro project, you'll see the following folders and files:
+3. Al hacer clic en "¡Adelante!" se te descargará automáticamente el archivo .txt con las preguntas aleatorias.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+4. Ahora necesitas transformarlo a PDF a través de esta herramienta para importarlo en Microsoft Forms.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+5. Ahora importa el PDF en Microsoft Forms haciendo clic en la opción "Importación rápida" o "Quick import", donde tendrás que subir tu PDF y seleccionar la opción "Cuestionario" o "Quiz".
