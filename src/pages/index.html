@@ -28,12 +28,32 @@
 
 				var files = fileInput.files;
 
+				if (preguntasTotales.includes(",")){
+					let lstPreguntas = []
+					while (preguntasTotales.length>0){
+						indice = preguntasTotales.indexOf(",")
+						console.log(indice)
+						if (indice != -1){
+							lstPreguntas.push(preguntasTotales.slice(0,indice))
+							preguntasTotales = preguntasTotales.slice(indice+1)
+							console.log(lstPreguntas, preguntasTotales)
+						} else {
+							lstPreguntas.push(preguntasTotales)
+							preguntasTotales=""
+							console.log(lstPreguntas, preguntasTotales)
+						}
+					}
+					preguntasTotales = lstPreguntas
+					console.log(preguntasTotales)
+				}
+
 				if (files.length > 0 && preguntasTotales && lineasInicio && preguntasAElegir && respuestasPorPregunta && espaciosEntrePreguntas) {
 					var preguntas = [];
 
 					function processFile(index) {
 						var reader = new FileReader();
 						var file = files[index];
+						totales = preguntasTotales[index];
 
 						reader.onload = function (e) {
 							var content = e.target.result;
@@ -42,7 +62,7 @@
 								content = content.slice(indice + 2);
 							}
 
-							for (let step = 0; step < preguntasTotales; step++) {
+							for (let step = 0; step < totales; step++) {
 								let indice = content.indexOf("\r\n");
 								var preguntaActual = new Pregunta(content.slice(0, indice));
 								content = content.slice(indice + 2);
@@ -80,18 +100,13 @@
 			}
 
 			function generateFinalQuestions(preguntas, preguntasAElegir, respuestasPorPregunta, espaciosEntrePreguntas) {
-				console.log(preguntas, preguntasAElegir)
 				let numeros = []
 				while (numeros.length < preguntasAElegir){
-					console.log("hola")
 					var numero = getRandomInt(preguntas.length)
-					console.log(numero)
 					if (!numeros.includes(numero)){
 						numeros.push(numero)
-						console.log(numeros)
 					}
 				}
-				console.log(numeros)
 				let preguntasFinales = ""
 				letras = ["A", "B", "C", "D", "E", "F", "G"]
 				for (let step = 0; step < preguntasAElegir; step ++){
@@ -103,7 +118,6 @@
 						preguntasFinales += "\r\n"
 					}
 				}
-				console.log(preguntasFinales)
 				const blob = new Blob([preguntasFinales], { type: "text/plain" });
 				const enlaceDescarga = document.createElement("a");
 				enlaceDescarga.download = "cuestionario.txt";
@@ -122,23 +136,23 @@
 				<h1 id="h11" class="text-7xl text-gray-100 w-full font-sans font-bold mb-8">¡Haz tu cuestionario aleatorio!</h1>
 				<div id="div1"class="flex align-middle">
 					<h3 class="h-full text-xl text-white font-sans mr-4">Preguntas totales por archivo: </h3>
-					<input id="preguntasTotales" class="rounded-full w-24 h-7 text-center">
+					<input id="preguntasTotales" class="rounded-full w-32 h-7 text-center">
 				</div>
 				<div id="div2"class="my-4 flex align-middle">
 					<h3 class="h-full text-xl text-white font-sans mr-4">Preguntas a elegir en total: </h3>
-					<input id="preguntasAElegir" class="rounded-full w-24 h-7 text-center">
+					<input id="preguntasAElegir" class="rounded-full w-32 h-7 text-center">
 				</div>
         <div id="div2"class="mb-4 flex align-middle">
 					<h3 class="h-full text-xl text-white font-sans mr-4">Respuestas por pregunta en cada archivo: </h3>
-					<input id="respuestasPorPregunta" class="rounded-full w-24 h-7 text-center">
+					<input id="respuestasPorPregunta" class="rounded-full w-32 h-7 text-center">
 				</div>
         <div id="div2"class="mb-4 flex align-middle">
 					<h3 class="h-full text-xl text-white font-sans mr-4">Espacios entre preguntas en cada archivo: </h3>
-					<input id="espaciosEntrePreguntas" class="rounded-full w-24 h-7 text-center">
+					<input id="espaciosEntrePreguntas" class="rounded-full w-32 h-7 text-center">
 				</div>
 				<div id="div1"class="flex align-middle">
 					<h3 class="h-full text-xl text-white font-sans mr-4">Líneas a evitar al inicio de cada archivo: </h3>
-					<input id="lineasInicio" value="0" class="rounded-full w-24 h-7 text-center">
+					<input id="lineasInicio" value="0" class="rounded-full w-32 h-7 text-center">
 				</div>
 				<div id="div3"class="mt-auto">
 					<div id="div4"class="mt-full my-6">
@@ -158,19 +172,19 @@
 							<li>DISCLAIMER: la versión móvil no está optimizada. Usa la versión de ordenador.</li>
 							<br>
 							<li>
-								1. Obtén un archivo .txt con todas tus preguntas. Quizás necesites transformar tu archivo PDF o Word a .txt, para ello, puedes usar <u><a href="https://convertio.co/es/pdf-txt/">esta herramienta para PDF a .txt</a></u> o <u><a href="https://convertio.co/es/word-txt/">esta herramienta para Word a .txt</a></u>.
+								1. Obtén un archivo .txt con todas tus preguntas. Puedes usar <u><a href="https://convertio.co/es/pdf-txt/">esta herramienta para transformar tu PDF a .txt</a></u> o <u><a href="https://convertio.co/es/word-txt/">esta herramienta para transformar tu Word a .txt</a></u>.
 							</li>
 							<br>
 							<li>
-								2. Sube tu archivo .txt (MUY IMPORTANTE QUE SEA .TXT) con todas las preguntas del test y rellena los diferentes parámetros. Es importante que los rellenes bien para la lectura correcta del documento. Puedes subir tantos archivos como quieras: el programa tendrá todos en cuenta, pero los parámetros deben ser los mismos para todos los archivos.
+								2. Sube tu archivo o archivos .txt. Es importante que sean documentos de texto. Debes rellenar bien todos los parámetros para una lectura correcta. Si los diferentes documentos tienen una cantidad de preguntas diferentes, puedes indicarlo por comas, en orden de selección de archivos, en "Preguntas totales por archivo", tal que así "5,4,9". Si solo se recibe un número, se entiende que todos tienen la misma longitud. El resto de parámetros son iguales para todos los archivos.
 							</li>
 							<br>
 							<li>
-								3. Al hacer clic en "¡Adelante!" un script realizará una selección de las preguntas deseadas de forma aleatoria y se te descargará automáticamente el archivo .txt con dichas preguntas.
+								3. Al hacer clic en "¡Adelante!" se te descargará automáticamente el archivo .txt con las preguntas aleatorias.
 							</li>
 							<br>
 							<li>
-								4. Ahora necesitas transformarlo a PDF para poder ser importado en Microsoft Forms. Puedes hacerlo a través de <u><a href="https://convertio.co/es/txt-pdf/">esta herramienta.</a></u>
+								4. Ahora necesitas transformarlo a PDF a través de <u><a href="https://convertio.co/es/txt-pdf/">esta herramienta</a></u> para importarlo en Microsoft Forms.
 							</li>
 							<br>
 							<li>
