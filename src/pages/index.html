@@ -19,71 +19,98 @@
 			}
 
 			function readFile() {
-				var fileInput = document.getElementById('fileInput');	
+				var fileInput = document.getElementById('fileInput');
 				var preguntasTotales = document.getElementById("preguntasTotales").value;
 				var preguntasAElegir = document.getElementById("preguntasAElegir").value;
 				var respuestasPorPregunta = document.getElementById("respuestasPorPregunta").value;
 				var espaciosEntrePreguntas = document.getElementById("espaciosEntrePreguntas").value;
-				var lineasInicio = document.getElementById("lineasInicio").value;	
-				var file = fileInput.files[0];
-			
-				if (file && preguntasTotales && lineasInicio && preguntasAElegir && respuestasPorPregunta && espaciosEntrePreguntas) {
-					var reader = new FileReader();
-			
-					reader.onload = function(e) {
-						var content = e.target.result;
-						let preguntas = []
-						console.log(lineasInicio)
-						for (let step = 0; step < lineasInicio; step ++){
-							console.log("heqwewae")
-							let indice = content.indexOf("\r\n")
-							content = content.slice(indice+2)
-						}
-						console.log(content)
-						for (let step = 0; step < preguntasTotales; step ++){
-							let indice = content.indexOf("\r\n")
-							var preguntaActual = new Pregunta(content.slice(0,indice))
-							content = content.slice(indice+2)
-							for (let i = 0; i < respuestasPorPregunta; i ++){
-								let indice = content.indexOf("\r\n")
-								preguntaActual.respuestas.push(content.slice(0,indice))
-								content = content.slice(indice+2)
+				var lineasInicio = document.getElementById("lineasInicio").value;
+
+				var files = fileInput.files;
+
+				if (files.length > 0 && preguntasTotales && lineasInicio && preguntasAElegir && respuestasPorPregunta && espaciosEntrePreguntas) {
+					var preguntas = [];
+
+					function processFile(index) {
+						var reader = new FileReader();
+						var file = files[index];
+
+						reader.onload = function (e) {
+							var content = e.target.result;
+							for (let step = 0; step < lineasInicio; step++) {
+								let indice = content.indexOf("\r\n");
+								content = content.slice(indice + 2);
 							}
-							for (let i = 0; i < espaciosEntrePreguntas; i ++){
-								content = content.slice(2)
+
+							for (let step = 0; step < preguntasTotales; step++) {
+								let indice = content.indexOf("\r\n");
+								var preguntaActual = new Pregunta(content.slice(0, indice));
+								content = content.slice(indice + 2);
+
+								for (let i = 0; i < respuestasPorPregunta; i++) {
+									let indice = content.indexOf("\r\n");
+									preguntaActual.respuestas.push(content.slice(0, indice));
+									content = content.slice(indice + 2);
+								}
+
+								for (let i = 0; i < espaciosEntrePreguntas; i++) {
+									content = content.slice(2);
+								}
+
+								preguntas.push(preguntaActual);
 							}
-							preguntas.push(preguntaActual)
-						}
-						let numeros = []
-						while (numeros.length < preguntasAElegir){
-							var numero = getRandomInt(preguntasTotales)
-							if (!numeros.includes(numero)){
-								numeros.push(numero)
+
+							if (index === files.length - 1) {
+								// Processed all files, generate final questions
+								generateFinalQuestions(preguntas, preguntasAElegir, respuestasPorPregunta, espaciosEntrePreguntas);
+							} else {
+								// Process the next file
+								processFile(index + 1);
 							}
-						}
-						let preguntasFinales = ""
-						letras = ["A", "B", "C", "D", "E", "F", "G"]
-						for (let step = 0; step < preguntasAElegir; step ++){
-							preguntasFinales += (step+1) +". " + preguntas[numeros[step]].pregunta + "\r\n"
-							for (let i = 0; i < respuestasPorPregunta; i ++){
-								preguntasFinales += letras[i] + ". " + preguntas[numeros[step]].respuestas[i] + "\r\n"
-							}
-							for (let i = 0; i < espaciosEntrePreguntas; i++){
-								preguntasFinales += "\r\n"
-							}
-						}
-						const blob = new Blob([preguntasFinales], { type: "text/plain" });
-						const enlaceDescarga = document.createElement("a");
-						enlaceDescarga.download = "cuestionario.txt";
-						enlaceDescarga.href = window.URL.createObjectURL(blob);
-						document.body.appendChild(enlaceDescarga);
-						enlaceDescarga.click();
-						document.body.removeChild(enlaceDescarga);
-					};
-					reader.readAsText(file);
+						};
+
+						reader.readAsText(file);
+					}
+
+					// Start processing the first file
+					processFile(0);
 				} else {
-					window.alert("Rellena todos los datos.")
+					window.alert("Rellena todos los datos.");
 				}
+			}
+
+			function generateFinalQuestions(preguntas, preguntasAElegir, respuestasPorPregunta, espaciosEntrePreguntas) {
+				console.log(preguntas, preguntasAElegir)
+				let numeros = []
+				while (numeros.length < preguntasAElegir){
+					console.log("hola")
+					var numero = getRandomInt(preguntas.length)
+					console.log(numero)
+					if (!numeros.includes(numero)){
+						numeros.push(numero)
+						console.log(numeros)
+					}
+				}
+				console.log(numeros)
+				let preguntasFinales = ""
+				letras = ["A", "B", "C", "D", "E", "F", "G"]
+				for (let step = 0; step < preguntasAElegir; step ++){
+					preguntasFinales += (step+1) +". " + preguntas[numeros[step]].pregunta + "\r\n"
+					for (let i = 0; i < respuestasPorPregunta; i ++){
+						preguntasFinales += letras[i] + ". " + preguntas[numeros[step]].respuestas[i] + "\r\n"
+					}
+					for (let i = 0; i < espaciosEntrePreguntas; i++){
+						preguntasFinales += "\r\n"
+					}
+				}
+				console.log(preguntasFinales)
+				const blob = new Blob([preguntasFinales], { type: "text/plain" });
+				const enlaceDescarga = document.createElement("a");
+				enlaceDescarga.download = "cuestionario.txt";
+				enlaceDescarga.href = window.URL.createObjectURL(blob);
+				document.body.appendChild(enlaceDescarga);
+				enlaceDescarga.click();
+				document.body.removeChild(enlaceDescarga);
 			}
 			</script>
 	</head>
@@ -94,23 +121,23 @@
 			<form id="form" class="w-full h-full bg-teal-800 rounded-lg py-8 px-8 flex flex-col justify-between">
 				<h1 id="h11" class="text-7xl text-gray-100 w-full font-sans font-bold mb-8">¡Haz tu cuestionario aleatorio!</h1>
 				<div id="div1"class="flex align-middle">
-					<h3 class="h-full text-xl text-white font-sans mr-4">Preguntas totales: </h3>
+					<h3 class="h-full text-xl text-white font-sans mr-4">Preguntas totales por archivo: </h3>
 					<input id="preguntasTotales" class="rounded-full w-24 h-7 text-center">
 				</div>
 				<div id="div2"class="my-4 flex align-middle">
-					<h3 class="h-full text-xl text-white font-sans mr-4">Preguntas a elegir: </h3>
+					<h3 class="h-full text-xl text-white font-sans mr-4">Preguntas a elegir en total: </h3>
 					<input id="preguntasAElegir" class="rounded-full w-24 h-7 text-center">
 				</div>
         <div id="div2"class="mb-4 flex align-middle">
-					<h3 class="h-full text-xl text-white font-sans mr-4">Respuestas por pregunta: </h3>
+					<h3 class="h-full text-xl text-white font-sans mr-4">Respuestas por pregunta en cada archivo: </h3>
 					<input id="respuestasPorPregunta" class="rounded-full w-24 h-7 text-center">
 				</div>
         <div id="div2"class="mb-4 flex align-middle">
-					<h3 class="h-full text-xl text-white font-sans mr-4">Espacios entre preguntas: </h3>
+					<h3 class="h-full text-xl text-white font-sans mr-4">Espacios entre preguntas en cada archivo: </h3>
 					<input id="espaciosEntrePreguntas" class="rounded-full w-24 h-7 text-center">
 				</div>
 				<div id="div1"class="flex align-middle">
-					<h3 class="h-full text-xl text-white font-sans mr-4">Líneas a evitar al inicio: </h3>
+					<h3 class="h-full text-xl text-white font-sans mr-4">Líneas a evitar al inicio de cada archivo: </h3>
 					<input id="lineasInicio" value="0" class="rounded-full w-24 h-7 text-center">
 				</div>
 				<div id="div3"class="mt-auto">
@@ -135,7 +162,7 @@
 							</li>
 							<br>
 							<li>
-								2. Sube tu archivo .txt (MUY IMPORTANTE QUE SEA .TXT) con todas las preguntas del test y rellena los diferentes parámetros. Es importante que los rellenes bien para la lectura correcta del documento.
+								2. Sube tu archivo .txt (MUY IMPORTANTE QUE SEA .TXT) con todas las preguntas del test y rellena los diferentes parámetros. Es importante que los rellenes bien para la lectura correcta del documento. Puedes subir tantos archivos como quieras: el programa tendrá todos en cuenta, pero los parámetros deben ser los mismos para todos los archivos.
 							</li>
 							<br>
 							<li>
